@@ -1,0 +1,725 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="de" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Deployment mit Heroku &mdash; Deployment mit Heroku 1 Dokumentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home" alt="Documentation Home"> Deployment mit Heroku
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Dokumentation durchsuchen" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Inhalt:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment mit Heroku</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grundlagen">1. Grundlagen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definitionen">1.1. Definitionen</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plattform-as-a-service-paas">1.1.1. Plattform as a Service (PaaS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#containerbasierte-plattform">1.1.2. Containerbasierte Plattform</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-plattform">1.2. Heroku Plattform</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dynos">1.2.1. Dynos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runtime">1.2.2. Runtime</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#procfile">1.2.3. Procfile</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#erste-einstellungen">2. Erste Einstellungen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-account-erstellen">2.1. Heroku Account erstellen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-installieren">2.2. Git installieren</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unter-windows">2.2.1. unter Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unter-macos">2.2.2. unter MacOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unter-linux">2.2.3. unter Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nach-der-installation">2.2.4. nach der Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-installieren">2.3. Heroku installieren</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">2.3.1. unter Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">2.3.2. unter MacOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">2.3.3. unter Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">2.3.4. nach der Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#erste-schritte-mit-heroku">3. Erste Schritte mit Heroku</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-login">3.1. Heroku login</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applikation-erstellen">3.2. Applikation erstellen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#veroffentlichen-einer-applikation">4. Veröffentlichen einer Applikation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ruby">4.1. Ruby</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ruby-on-rails-installieren">4.1.1. Ruby on Rails installieren</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ruby-app-generieren">4.1.2. Ruby-App generieren</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mit-heroku-veroffentlichen">4.1.3. mit Heroku veröffentlichen</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#python">4.2. Python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python-installieren">4.2.1. Python installieren</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pip-installieren">4.2.2. Pip installieren</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-flask-app-generieren">4.2.3. Python Flask-App generieren</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliographie">Bibliographie</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Deployment mit Heroku</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Deployment mit Heroku</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> Quelltext anzeigen</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deployment-mit-heroku">
+<h1>Deployment mit Heroku<a class="headerlink" href="#deployment-mit-heroku" title="Link zu dieser Überschrift">¶</a></h1>
+<p>Dieses Handbuch bietet eine Übersicht, wie man einfach über Heroku eine Webseite veröffentlichen kann.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Inhalt:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment mit Heroku</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grundlagen">1. Grundlagen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definitionen">1.1. Definitionen</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plattform-as-a-service-paas">1.1.1. Plattform as a Service (PaaS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#containerbasierte-plattform">1.1.2. Containerbasierte Plattform</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-plattform">1.2. Heroku Plattform</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dynos">1.2.1. Dynos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runtime">1.2.2. Runtime</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#procfile">1.2.3. Procfile</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#erste-einstellungen">2. Erste Einstellungen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-account-erstellen">2.1. Heroku Account erstellen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-installieren">2.2. Git installieren</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unter-windows">2.2.1. unter Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unter-macos">2.2.2. unter MacOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unter-linux">2.2.3. unter Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nach-der-installation">2.2.4. nach der Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-installieren">2.3. Heroku installieren</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">2.3.1. unter Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">2.3.2. unter MacOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">2.3.3. unter Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">2.3.4. nach der Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#erste-schritte-mit-heroku">3. Erste Schritte mit Heroku</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#heroku-login">3.1. Heroku login</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applikation-erstellen">3.2. Applikation erstellen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#veroffentlichen-einer-applikation">4. Veröffentlichen einer Applikation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ruby">4.1. Ruby</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ruby-on-rails-installieren">4.1.1. Ruby on Rails installieren</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#id11">4.1.1.1. unter Windows</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#id12">4.1.1.2. unter MacOS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#id16">4.1.1.3. unter Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#ruby-app-generieren">4.1.2. Ruby-App generieren</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mit-heroku-veroffentlichen">4.1.3. mit Heroku veröffentlichen</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#python">4.2. Python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python-installieren">4.2.1. Python installieren</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#id17">4.2.1.1. unter Windows</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#id18">4.2.1.2. unter MacOS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#id19">4.2.1.3. unter Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#pip-installieren">4.2.2. Pip installieren</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-flask-app-generieren">4.2.3. Python Flask-App generieren</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliographie">Bibliographie</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="grundlagen">
+<h2>1. Grundlagen<a class="headerlink" href="#grundlagen" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="section" id="definitionen">
+<h3>1.1. Definitionen<a class="headerlink" href="#definitionen" title="Link zu dieser Überschrift">¶</a></h3>
+<p>Heroku ist eine Container-basierte Cloud-Plattform als Service (PaaS). Sie dient zur Veröffent-lichung von Webapplikationen, sowie deren Management.
+Heroku bietet Services, Tools, Workflows und Support an, welche die Produktivität von Entwicklern verbessern sollen.
+Ausserdem ist sie mit den Programmiersprachen Ruby, Java, Node.js, Scala, Clojure, Python, PHP und Go kompatibel. (Heroku, 2020) <a class="footnote-reference brackets" href="#id22" id="id1">1</a></p>
+<div class="section" id="plattform-as-a-service-paas">
+<h4>1.1.1. Plattform as a Service (PaaS)<a class="headerlink" href="#plattform-as-a-service-paas" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Eine PaaS (Platform as a Service) bietet eine vollständige Entwicklungsumgebung und Tools in der Cloud an.
+Eine PaaS stellt dabei das Bindeglied zwischen SaaS (Software as a Service) und IaaS (Infrastructure as a Service) dar.
+Die IaaS bietet lediglich die Infrastruktur und SaaS bietet die Software, doch die PaaS geht einen Schritt weiter und bietet alle Tools und die Infrastruktur in einer Plattform an.
+Der gesamte Software-Lebenszyklus läuft hierbei in der Plattform ab, das heisst von der Entwicklung über das Testing bis zum produktiven Betrieb der Applikation. (IONOS, 2019) <a class="footnote-reference brackets" href="#id23" id="id2">2</a></p>
+</div>
+<div class="section" id="containerbasierte-plattform">
+<h4>1.1.2. Containerbasierte Plattform<a class="headerlink" href="#containerbasierte-plattform" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Container in der Informatik funktionieren mit einem ähnlichen Prinzip wie Transportcontainer in der Logistik.
+Es werden Waren jeglicher Art in einem standardisierten Container verschickt und verteilt. Dabei kommt es nicht darauf an, mit welchem Transportmittel.
+Dasselbe gilt für Contai-ner in der IT. Eine Anwendung wird dabei in einem Container «verpackt» zusammen mit allen Dateien, die zu ihrer Ausführung notwendig sind.
+Dies dient zur Vereinfachung von Installati-on, Betrieb, Management und Verteilung von Anwendungen. (von der Howen, 2020) Anwendungen sind von verschiedensten Elementen in ihrer Umgebung abhängig.
+Das bedeutet, dass lokale Einstellungen, Bibliotheken oder Dateien zur Nutzung der Anwendung benötigt werden. Dabei unterscheiden sich die Einstellungen oft in den verschiedenen Entwicklungsum-gebungen (Entwicklung, Testumgebung, Produktion) und dabei kann es passieren, dass eine Anwendung in der Produktion nicht oder falsch funktioniert.
+Um dieses Risiko zu minimieren werden Container genutzt. In den Containern werden alle Abhängigkeiten verpackt, sodass die Anwendung also nicht mehr direkt auf den Zielsystemen installiert werden, sondern nur im Container funktionieren. (von der Howen, 2020) <a class="footnote-reference brackets" href="#id24" id="id3">3</a></p>
+</div>
+</div>
+<div class="section" id="heroku-plattform">
+<h3>1.2. Heroku Plattform<a class="headerlink" href="#heroku-plattform" title="Link zu dieser Überschrift">¶</a></h3>
+<p>Die Heroku PaaS enthält integrierte Datenmanagement Services und ein mächtiges Ökosystem. Heroku lässt die Applikationen in sogenannten Dynos laufen, welche vollumfänglich verwaltete Runtime-Enviroments enthalten.
+Die Dynos können dank einem Dashboard überwacht und verwaltet werden. Es sind ausserdem Add-ons verfügbar, um Applikationen anzupassen.</p>
+<div class="section" id="dynos">
+<h4>1.2.1. Dynos<a class="headerlink" href="#dynos" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Dynos sind das Herz der Heroku-Plattform. Sie sind Container, in welchen alle Umgebungs-spezifischen Daten und Einstellungen laufen. Die «Containerisierung» abstrahiert die Last der Verwaltung von Hardware oder virtuellen Maschinen.
+Das heisst anstatt die Hardware zu ver-walten stellt man die Webapplikation Heroku zur Verfügung, welche dieses und all dessen Ab-hängigkeiten in einem Dyno (Container) verpackt. (Heroku, 2020) <a class="footnote-reference brackets" href="#id25" id="id4">4</a></p>
+</div>
+<div class="section" id="runtime">
+<h4>1.2.2. Runtime<a class="headerlink" href="#runtime" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Die Runtime in Heroku ist dazu da die Applikation laufen zu lassen und zu verwalten.
+Sie orchestriert ausserdem die Dynos, verwaltet und überwacht deren Lebenszyklus, stellt eine passende Netzwerkverbindung, sowie http Protokolle bereit. (Heroku, 2020) <a class="footnote-reference brackets" href="#id26" id="id5">5</a></p>
+</div>
+<div class="section" id="procfile">
+<h4>1.2.3. Procfile<a class="headerlink" href="#procfile" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Das Procfile enthält alle Befehle, die beim Start der Applikation ausgeführt werden müssen. Das Procfile besitzt keine Endung, das heisst Procfile.txt ist nicht gültig und wird von Heroku nicht erkannt.
+Das Format, in welchem das Procfile beschrieben wird sieht wie folgt aus:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt;process type&gt;: &lt;command&gt;
+</pre></div>
+</div>
+<p>Das Procfile wird am einfachsten über die Commandline erstellt, in dem <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">touch</span> <span class="pre">Procfile`ausgeführt</span> <span class="pre">wird.</span> <span class="pre">Danach</span> <span class="pre">wird</span> <span class="pre">mit</span> <span class="pre">:code:`$</span> <span class="pre">nano</span> <span class="pre">Procfile</span></code> in das Procfile geschrieben. <a class="footnote-reference brackets" href="#id27" id="id6">6</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="erste-einstellungen">
+<h2>2. Erste Einstellungen<a class="headerlink" href="#erste-einstellungen" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="section" id="heroku-account-erstellen">
+<h3>2.1. Heroku Account erstellen<a class="headerlink" href="#heroku-account-erstellen" title="Link zu dieser Überschrift">¶</a></h3>
+<p>Um auf Heroku eine Webapplikation zu veröffentlichen benötigt man einen Account. Einen Heroku Account zu erstellen ist gratis und führt nicht zu einer wahnsinnigen Flut an Werbe-Mails, daher ist es als sicher zu betrachten.
+Unter <a class="reference external" href="http://heroku.com">http://heroku.com</a> kann in der Ecke rechts oben auf Sign Up geklickt und dann ein Konto errichtet werden. Man wird dazu aufgefordert seine E-Mail-Adresse zu verifizieren.
+Nach erfolgreicher Verifizierung seiner E-Mail-Adresse kann man sich anmelden.</p>
+</div>
+<div class="section" id="git-installieren">
+<h3>2.2. Git installieren<a class="headerlink" href="#git-installieren" title="Link zu dieser Überschrift">¶</a></h3>
+<div class="section" id="unter-windows">
+<h4>2.2.1. unter Windows<a class="headerlink" href="#unter-windows" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Um Git für Windows herunterzuladen klickt man auf den folgenden Link, wobei der Download direkt gestartet wird: <a class="reference external" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></p>
+</div>
+<div class="section" id="unter-macos">
+<h4>2.2.2. unter MacOS<a class="headerlink" href="#unter-macos" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Ab Mac OS Version 10.9 sollte Git bereits installiert sein.
+Sollte dies nicht der Fall sein, gibt es mehrere Optionen, um Git zu installieren.</p>
+<p>Mit dem Installer:
+Unter <a class="reference external" href="http://git-scm.com/download/mac">http://git-scm.com/download/mac</a> kann man sich den Git-Installer herunterladen.</p>
+<p>Mit Homebrew:
+Homebrew ist eine Paketverwaltung von OS X, durch die einfach Programme und Software installiert werden können.
+Auch Git kann mit Homebrew installiert werden.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ brew install git
+</pre></div>
+</div>
+<p>Mit MacPorts:
+Auch MacPorts ist eine Paketverwaltung von OS X, mit der Git heruntergeladen werden kann.
+Zunächst muss MacPorts aktualisiert werden:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo port selfupdate
+</pre></div>
+</div>
+<p>Danach wird nach den neusten Portionierungen und Varianten von Git gesucht.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ port search git
+$ port variants git
+</pre></div>
+</div>
+<p>Git installieren</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo port install git +bash_completion+credential_osxkeychain+doc
+</pre></div>
+</div>
+</div>
+<div class="section" id="unter-linux">
+<h4>2.2.3. unter Linux<a class="headerlink" href="#unter-linux" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Für die Installation unter Debian-basierten Linuxsystemen kann folgender Befehl verwendet werden:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install git
+</pre></div>
+</div>
+<p>Für Fedora Linux kann über yum oder dnf Git installiert werden.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo dnf install git
+</pre></div>
+</div>
+<p>oder</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo yum install git
+</pre></div>
+</div>
+</div>
+<div class="section" id="nach-der-installation">
+<h4>2.2.4. nach der Installation<a class="headerlink" href="#nach-der-installation" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Zunächst muss man mit <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">--version</span></code> überprüfen, ob Git tatsächlich installiert wurde.
+Bei erfolgreicher Installation sollte man Git seine Identität bestätigen, in dem man seinen Namen und E-Mail-Adresse angibt.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git config --global user.name <span class="s2">&quot;Max Mustermann&quot;</span>
+$ git config --global user.email <span class="s2">&quot;max.mustermann@email.com&quot;</span>
+</pre></div>
+</div>
+<p>Die Angaben werden bei jedem zukünftigen Commit zugeordnet, sodass immer ersichtlich ist, wer Änderungen gemacht hat.</p>
+</div>
+</div>
+<div class="section" id="heroku-installieren">
+<h3>2.3. Heroku installieren<a class="headerlink" href="#heroku-installieren" title="Link zu dieser Überschrift">¶</a></h3>
+<div class="section" id="id7">
+<h4>2.3.1. unter Windows<a class="headerlink" href="#id7" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Für Windows gibt es einen Heroku Installer für 32- oder 64bit, der unter <a class="reference external" href="https://devcenter.heroku.com/articles/heroku-cli">https://devcenter.heroku.com/articles/heroku-cli</a> heruntergeladen werden kann.</p>
+</div>
+<div class="section" id="id8">
+<h4>2.3.2. unter MacOS<a class="headerlink" href="#id8" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Für die Installation unter MacOS wird die Bash verwendet und folgender Befehl ausgelöst:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ brew tap heroku/brew <span class="o">&amp;&amp;</span> brew install heroku
+</pre></div>
+</div>
+<p>Homebrew installiert dann Heroku automatisch.</p>
+</div>
+<div class="section" id="id9">
+<h4>2.3.3. unter Linux<a class="headerlink" href="#id9" title="Link zu dieser Überschrift">¶</a></h4>
+<p>In der Bash unter Linux Ubuntu kann folgender Befehl ausgelöst werden:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo snap install --classic heroku
+</pre></div>
+</div>
+<p>Auch für andere Linux-Systeme ist Heroku unter <a class="reference external" href="https://snapcraft.io/heroku">https://snapcraft.io/heroku</a> verfügbar.</p>
+</div>
+<div class="section" id="id10">
+<h4>2.3.4. nach der Installation<a class="headerlink" href="#id10" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Nach der Installation von Heroku sollte die Installation verifiziert werden, in dem man die Version vom Heroku-CLI überprüft.
+Dies wird überprüft, in dem man <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">heroku</span> <span class="pre">--version</span></code> im Terminal eingbit.
+Die Ausgabe sollte wie folgt aussehen: <code class="code docutils literal notranslate"><span class="pre">heroku/7.0.0</span> <span class="pre">(darwin-x64)</span> <span class="pre">node-v8.0.0</span></code></p>
+</div>
+</div>
+</div>
+<div class="section" id="erste-schritte-mit-heroku">
+<h2>3. Erste Schritte mit Heroku<a class="headerlink" href="#erste-schritte-mit-heroku" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="section" id="heroku-login">
+<h3>3.1. Heroku login<a class="headerlink" href="#heroku-login" title="Link zu dieser Überschrift">¶</a></h3>
+<p>Zunächst muss man sich mit dem in Punkt 2.1. erstellten Account bei Heroku anmelden.
+Dies gelingt ebenfalls über das Terminal mit dem Befehl  <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">heroku</span> <span class="pre">login</span></code></p>
+<img alt="_images/login.png" src="_images/login.png" />
+<p>Möchte man im Terminal bleiben, ohne sich über den Browser anzumelden, kann man auch den Befehl <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">heroku</span> <span class="pre">login</span> <span class="pre">-i</span></code> eingeben.</p>
+<img alt="_images/login-i.png" src="_images/login-i.png" />
+</div>
+<div class="section" id="applikation-erstellen">
+<h3>3.2. Applikation erstellen<a class="headerlink" href="#applikation-erstellen" title="Link zu dieser Überschrift">¶</a></h3>
+<p>Nachdem man sich erfolgreich bei Heroku über die Commandline angemolden hat, kann eine Applikation erstellt werden. Zunächst wird mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">cd</span> <span class="pre">path/to/my/appfolder</span></code> in den entsprechenden Ordner navigiert.
+Mit dem Befehl <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">heroku</span> <span class="pre">create</span> <span class="pre">-a</span> <span class="pre">appname</span></code> wird dann die Applikation auf Heroku erstellt.</p>
+<img alt="_images/create.png" src="_images/create.png" />
+</div>
+</div>
+<div class="section" id="veroffentlichen-einer-applikation">
+<h2>4. Veröffentlichen einer Applikation<a class="headerlink" href="#veroffentlichen-einer-applikation" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Mit Heroku können viele verschiedene Applikationen mit jeglichen Programmiersprachen veröffentlicht werden.
+Namentlich:</p>
+<ul class="simple">
+<li><p>Ruby</p></li>
+<li><p>Java</p></li>
+<li><p>Python</p></li>
+<li><p>Node.js</p></li>
+<li><p>PHP</p></li>
+<li><p>Go</p></li>
+<li><p>Scala</p></li>
+<li><p>Clojure</p></li>
+</ul>
+<div class="section" id="ruby">
+<h3>4.1. Ruby<a class="headerlink" href="#ruby" title="Link zu dieser Überschrift">¶</a></h3>
+<div class="section" id="ruby-on-rails-installieren">
+<h4>4.1.1. Ruby on Rails installieren<a class="headerlink" href="#ruby-on-rails-installieren" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Für das Entwickeln einer Webapplikation mit Ruby müssen zunächst Ruby und Rails installiert werden.</p>
+<div class="section" id="id11">
+<h5>4.1.1.1. unter Windows<a class="headerlink" href="#id11" title="Link zu dieser Überschrift">¶</a></h5>
+<p>Für Windows gibt es einen Installer, den man herunterladen kann, welcher Ruby installiert.
+Dieser ist unter folgendem Link verfügbar: <a class="reference external" href="https://rubyinstaller.org">https://rubyinstaller.org</a></p>
+</div>
+<div class="section" id="id12">
+<h5>4.1.1.2. unter MacOS<a class="headerlink" href="#id12" title="Link zu dieser Überschrift">¶</a></h5>
+<p>Für MacOS gibt es Drittanbieter-Werkzeuge wie <cite>rbenv</cite>, die genutzt werden können, um Ruby zu installieren.
+In rbenv ist es möglich die Ruby-Version direkt auszuwählen, sodass die Entwicklungsumgebung und die Produktion zusammen funktionieren. <a class="footnote-reference brackets" href="#id28" id="id13">7</a></p>
+<p>Die Installation ist einfach über Homebrew zu bewältigen.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ brew install rbenv
+$ <span class="nb">echo</span> <span class="s1">&#39;eval &quot;$(rbenv init -)&quot;&#39;</span> &gt;&gt; ~/.bash_profile
+$ <span class="nb">source</span> ~/.bash_profile
+</pre></div>
+</div>
+<p>Mit rbenv-doctor kann dann die Installation überprüft werden.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor <span class="p">|</span> bash
+</pre></div>
+</div>
+<p>Nach der erfolgreichen Installation von rbenv kann nun mit Hilfe dessen Ruby und Rails installiert werden.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ rbenv install X.X.X
+</pre></div>
+</div>
+<p>Bei X.X.X ist die gewollte Ruby-Version zu spezifizieren.
+Laut Ruby’s offizieller Website ist die aktuell stabilste Version 2.7.2 <a class="footnote-reference brackets" href="#id29" id="id14">8</a></p>
+<p>Es kann passieren, dass bei der Installation ein OpenSSL-Fehler auftritt. Dieser kann mit folgenden Mitteln behoben werden:<a class="footnote-reference brackets" href="#id30" id="id15">9</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ brew install curl-ca-bundle
+$ cp /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt <span class="sb">`</span>ruby -ropenssl -e <span class="s1">&#39;puts OpenSSL::X509::DEFAULT_CERT_FILE&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>Wenn Ruby installiert ist, muss danach noch Rails installiert werden. Rails lässt sich einfach mit <code class="code docutils literal notranslate"><span class="pre">gem</span> <span class="pre">install</span> <span class="pre">rails</span> <span class="pre">--no-document</span></code> installieren.
+Nach der vollständigen Installation von Ruby und Rails wird jetzt noch yarn benötigt:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ brew install yarn
+</pre></div>
+</div>
+</div>
+<div class="section" id="id16">
+<h5>4.1.1.3. unter Linux<a class="headerlink" href="#id16" title="Link zu dieser Überschrift">¶</a></h5>
+<p>In Linux muss zunächst yarn installiert werden, bevor Ruby und Rails installiert werden können.
+Für Ubuntu werden folgende Befehle ausgeführt:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install curl
+$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg <span class="p">|</span> sudo apt-key add -
+$ <span class="nb">echo</span> <span class="s2">&quot;deb https://dl.yarnpkg.com/debian/ stable main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/yarn.list
+$ sudo apt update <span class="o">&amp;&amp;</span> sudo apt install yarn
+</pre></div>
+</div>
+<p>Für Fedora:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ curl -sL https://rpm.nodesource.com/setup_12.x <span class="p">|</span> bash -
+$ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo <span class="p">|</span> sudo tee /etc/yum.repos.d/yarn.repo
+$ sudo yum install yarn
+</pre></div>
+</div>
+<p>Danach wird mit Hilfe von yarn Rails installiert:</p>
+<p>Ubuntu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bash &lt; &lt;<span class="o">(</span>curl -sL https://raw.github.com/railsgirls/installation-scripts/master/rails-install-ubuntu.sh<span class="o">)</span>
+</pre></div>
+</div>
+<p>Fedora:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bash &lt; &lt;<span class="o">(</span>curl -sL https://raw.github.com/railsgirls/installation-scripts/master/rails-install-fedora.sh<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ruby-app-generieren">
+<h4>4.1.2. Ruby-App generieren<a class="headerlink" href="#ruby-app-generieren" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Um eine neue Ruby-App zu erstellen wird zunächst mit dem Befehl <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">rails</span> <span class="pre">new</span> <span class="pre">appname</span> <span class="pre">--database=postgresql</span></code> eine Rails-App erstellt, welche mit postgresql läuft, da Heroku SQLite nicht unterstützt. Mit <strong class="command">cd</strong> wird in das neu erstellte Projekt navigiert.
+Danach wird mit <code class="code docutils literal notranslate"><span class="pre">rails</span> <span class="pre">g</span> <span class="pre">controller</span> <span class="pre">home</span></code> einen Controller erstellt.</p>
+<img alt="_images/controller.png" src="_images/controller.png" />
+<p>Der Controller der hier erstellt wurde heisst also: <cite>home_controller.rb</cite>
+In den Controller schreiben wir folgendes:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+   <span class="k">def</span> <span class="nf">index</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>Nun wird eine HTML-Seite erstellt, welche angezeigt werden soll.
+Unter <cite>app/views/pages</cite> wird das File ‚home.html.erb‘ generiert in welchem <code class="code docutils literal notranslate"><span class="pre">&lt;h1&gt;Hello</span> <span class="pre">World!&lt;/h1&gt;</span></code> steht.</p>
+<p>Nun wird noch die Route gesetzt, sodass der Controller die richtige HTML-Seite anspricht.
+Daher wird das File <cite>config/routes.rb</cite> geöffnet und <code class="code docutils literal notranslate"><span class="pre">root</span> <span class="pre">'index#home'</span></code> hineingeschrieben.</p>
+</div>
+<div class="section" id="mit-heroku-veroffentlichen">
+<h4>4.1.3. mit Heroku veröffentlichen<a class="headerlink" href="#mit-heroku-veroffentlichen" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Um die soeben generierte Webapp zu veröffentlichen wird die Heroku-App verwendet, welche unter Punkt 3.2. erstellt wurde.
+Dazu muss jedoch noch ein sogenanntes Procfile erstellt werden.</p>
+<p>Für das Ruby-App werden folgende Befehle in das Procfile geschrieben:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>web: bundle <span class="nb">exec</span> puma -t <span class="m">5</span>:5 -p <span class="si">${</span><span class="nv">PORT</span><span class="k">:-</span><span class="nv">3000</span><span class="si">}</span> -e <span class="si">${</span><span class="nv">RACK_ENV</span><span class="k">:-</span><span class="nv">development</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code> wird zuerst überprüft, ob die Remote-Connection zur Heroku-App noch läuft.</p>
+<img alt="_static/images/gitremote" src="_static/images/gitremote" />
+<p>Sollten mit diesem Befehl keine Remote-Connections angezeigt werden, muss mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">heroku</span> <span class="pre">git:remote</span> <span class="pre">-a</span> <span class="pre">appname</span></code> die Verbindung hergestellt werden.</p>
+<p>Nun werden alle Änderungen mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">add</span> <span class="pre">.</span></code> auf Git gestaged und mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">'my</span> <span class="pre">commitmessage'</span></code> comitted.
+Danach wird der Commit auf das Remote-Repository gepushed mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">push</span> <span class="pre">heroku</span> <span class="pre">master</span></code> und ist somit auf Heroku veröffentlicht.</p>
+<p>Die veröffentlichte Webapplikation ist nun unter <a class="reference external" href="https://appname.herokuapp.com/">https://appname.herokuapp.com/</a> einsehbar, wobei der appname der Name der Heroku-App ist.</p>
+</div>
+</div>
+<div class="section" id="python">
+<h3>4.2. Python<a class="headerlink" href="#python" title="Link zu dieser Überschrift">¶</a></h3>
+<div class="section" id="python-installieren">
+<h4>4.2.1. Python installieren<a class="headerlink" href="#python-installieren" title="Link zu dieser Überschrift">¶</a></h4>
+<div class="section" id="id17">
+<h5>4.2.1.1. unter Windows<a class="headerlink" href="#id17" title="Link zu dieser Überschrift">¶</a></h5>
+<p>Unter <a class="reference external" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a> kann Python für Windows installiert werden.</p>
+</div>
+<div class="section" id="id18">
+<h5>4.2.1.2. unter MacOS<a class="headerlink" href="#id18" title="Link zu dieser Überschrift">¶</a></h5>
+<p>Unter <a class="reference external" href="https://www.python.org/downloads/mac-osx/">https://www.python.org/downloads/mac-osx/</a> kann Python für MacOS installiert werden.</p>
+</div>
+<div class="section" id="id19">
+<h5>4.2.1.3. unter Linux<a class="headerlink" href="#id19" title="Link zu dieser Überschrift">¶</a></h5>
+<p>Unter <a class="reference external" href="https://www.python.org/downloads/source/">https://www.python.org/downloads/source/</a> kann Python für alle Linux-Distributionen installiert werden.</p>
+</div>
+</div>
+<div class="section" id="pip-installieren">
+<h4>4.2.2. Pip installieren<a class="headerlink" href="#pip-installieren" title="Link zu dieser Überschrift">¶</a></h4>
+<p>PIP ist ein Paketverwaltungssystem, welches zur Verwaltung und Installation von Paketen, die in Python geschrieben wurden. <a class="footnote-reference brackets" href="#id31" id="id20">10</a>
+Zunächst muss überprüft werden, ob PIP nicht bereits installiert ist.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip --version
+</pre></div>
+</div>
+<p>Wenn pip antwortet, ist es bereits installiert. Im Normalfall sollte Pip bei der Installation von Python auch installiert worden sein.
+Sollte dies jedoch nicht der Fall sein, kann man es nachträglich installieren.</p>
+<p>Dazu muss jedoch zuerst noch überprüft werden, ob Python auch wirklich installiert ist.
+Mit dem Befehl <code class="code docutils literal notranslate"><span class="pre">python</span></code> sollte die Version angezeigt werden.</p>
+<p>Nun wird das File  unter <a class="reference external" href="https://bootstrap.pypa.io/get-pip.py">https://bootstrap.pypa.io/get-pip.py</a> heruntergeladen und als get-pip.py gespeichert.</p>
+<p>Um nun Pip zu installieren muss folgender Befehl ausgeführt werden:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python get-pip.py
+</pre></div>
+</div>
+<p>Bei Python 3 muss <code class="code docutils literal notranslate"><span class="pre">python3</span> <span class="pre">get-pip.py</span></code> verwendet werden.</p>
+<p>Dies startet den Installationsprozess.
+Nach der Installation kann mit <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">--version</span></code> die Installation überprüft werden.
+<a class="footnote-reference brackets" href="#id32" id="id21">11</a></p>
+</div>
+<div class="section" id="python-flask-app-generieren">
+<h4>4.2.3. Python Flask-App generieren<a class="headerlink" href="#python-flask-app-generieren" title="Link zu dieser Überschrift">¶</a></h4>
+<p>Flask ist ein Framework, um mit Python Webapplikationen zu generieren.</p>
+<p>Um eine Flask-App zu erstellen wird zunächst ein Ordner erstellt, in welchem man die Commandline öffnet.
+Zunächst wird eine virtuelle Umgebung mit pipenv erstellt und Flask und Gunicorn heruntergeladen.
+Um pipenv zu nutzen wird pipenv mit pip installiert mit <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pipenv</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pipenv install flask gunicorn
+</pre></div>
+</div>
+<p>Nach der Installation von Flask und Gunicorn wird nun das Procfile erstellt.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>web: gunicorn wsgi:app
+</pre></div>
+</div>
+<p>In der Datei ‚runtime.txt‘ wird die Python-Version definiert, welche mit <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code> in Erfahrung gebracht werden kann.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Python-3.7.4
+</pre></div>
+</div>
+<p>Nun wird unser app.py File erstellt:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+   <span class="k">return</span> <span class="s2">&quot;Hello World!&quot;</span>
+</pre></div>
+</div>
+<p>Zusätlich wird noch das wsgi.py File erstellt, weches die Applikation startet.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+   <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Nun wird die Virtuelle Umgebung mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">pipenv</span> <span class="pre">shell</span></code> zum Laufen gebracht und alle Änderungen auf Git gestaged mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">add</span> <span class="pre">.</span></code>.
+Nach dem Commit (<code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">'commitmessage'</span></code>) wird die Flask-App nun auf Heroku veröffentlicht mit <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">push</span> <span class="pre">heroku</span> <span class="pre">master</span></code>.</p>
+<p>Die veröffentlichte Webapplikation ist nun unter <a class="reference external" href="https://appname.herokuapp.com/">https://appname.herokuapp.com/</a> einsehbar, wobei der appname der Name der Heroku-App ist.</p>
+</div>
+</div>
+</div>
+<div class="section" id="bibliographie">
+<h2>Bibliographie<a class="headerlink" href="#bibliographie" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id22"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Heroku. (2020). About Heroku. Von Heroku: <a class="reference external" href="https://www.heroku.com/about">https://www.heroku.com/about</a> abgerufen</p>
+</dd>
+<dt class="label" id="id23"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>IONOS. (2019). PaaS: Platform as a Service im Überblick. Von IONOS: <a class="reference external" href="https://www.ionos.de/digitalguide/server/knowhow/paas-platform-as-a-service/">https://www.ionos.de/digitalguide/server/knowhow/paas-platform-as-a-service/</a> abgerufen</p>
+</dd>
+<dt class="label" id="id24"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>von der Howen, L. (2020). Was sind Container in der IT? Von cloudmag: <a class="reference external" href="https://www.cloud-mag.com/was-sind-container/">https://www.cloud-mag.com/was-sind-container/</a> abgerufen</p>
+</dd>
+<dt class="label" id="id25"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>Heroku. (2020). Heroku Dynos. Von Heroku: <a class="reference external" href="https://www.heroku.com/dynos">https://www.heroku.com/dynos</a> abgerufen</p>
+</dd>
+<dt class="label" id="id26"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd><p>Heroku. (2020). Heroku Runtime. Von Heroku: <a class="reference external" href="https://www.heroku.com/platform/runtime">https://www.heroku.com/platform/runtime</a> abgerufen</p>
+</dd>
+<dt class="label" id="id27"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dd><p>RBENV. (2020). RBENV. Von Github: <a class="reference external" href="https://github.com/rbenv/rbenv">https://github.com/rbenv/rbenv</a> abgerufen</p>
+</dd>
+<dt class="label" id="id28"><span class="brackets"><a class="fn-backref" href="#id13">7</a></span></dt>
+<dd><p>Ruby. (2020). Ruby herunterladen. Von Ruby: <a class="reference external" href="https://www.ruby-lang.org/de/downloads/">https://www.ruby-lang.org/de/downloads/</a> abgerufen</p>
+</dd>
+<dt class="label" id="id29"><span class="brackets"><a class="fn-backref" href="#id14">8</a></span></dt>
+<dd><p>RailGirls. (2020). Setup recipe for Rail Girls. Von RailGirls: <a class="reference external" href="https://guides.railsgirls.com/install#setup-for-os-x">https://guides.railsgirls.com/install#setup-for-os-x</a></p>
+</dd>
+<dt class="label" id="id30"><span class="brackets"><a class="fn-backref" href="#id15">9</a></span></dt>
+<dd><p>Heroku. (2020). The Procfile. Von Heroku: <a class="reference external" href="https://devcenter.heroku.com/articles/procfile">https://devcenter.heroku.com/articles/procfile</a> abgerufen</p>
+</dd>
+<dt class="label" id="id31"><span class="brackets"><a class="fn-backref" href="#id20">10</a></span></dt>
+<dd><p>PhoenixNap. (2019). How To Install PIP To Manage Python Packages On Windows. Von PhoenixNap: <a class="reference external" href="https://phoenixnap.com/kb/install-pip-windows">https://phoenixnap.com/kb/install-pip-windows</a> abgerufen</p>
+</dd>
+<dt class="label" id="id32"><span class="brackets"><a class="fn-backref" href="#id21">11</a></span></dt>
+<dd><p>PyPa. (2020). Installation. von PyPa: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a> abgerufen</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Melanie Menge
+
+    </p>
+  </div>
+    
+    
+    
+    Erstellt mit <a href="http://sphinx-doc.org/">Sphinx</a> mit einem
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    bereitgestellt von <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
