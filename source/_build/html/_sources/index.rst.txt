@@ -9,6 +9,10 @@ Deployment mit Heroku
 
 Dieses Handbuch bietet eine Übersicht, wie man einfach über Heroku eine Webseite veröffentlichen kann.
 
+Benötigte Vorkenntnisse sind:
+
+* Git
+
 .. toctree::
    :caption: Inhalt:
 
